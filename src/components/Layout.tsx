@@ -12,7 +12,7 @@ interface Props {
 
 const Layout: NextPage<Props> = ({ children, title }) => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="flex flex-col h-screen bg-white">
       <Head>
         <title>{title ? title : seo.title}</title>
         <meta charSet="utf-8" />
