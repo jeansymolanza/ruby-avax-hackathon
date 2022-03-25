@@ -39,3 +39,4 @@ yarn-error.log*
 
 # misc
 .idea
+package-lock.json
