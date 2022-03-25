@@ -1,15 +1,17 @@
-import { Popover } from '@headlessui/react';
 import { SearchIcon } from '@heroicons/react/solid';
 import { ShoppingCartIcon } from '@heroicons/react/outline';
-import { useState } from 'react';
-import { ConnectWalletModal } from './ConnectWalletModal';
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
-}
+import { useWalletProvider } from '../contexts/WalletProviderContext';
+import { AVAX_DEV_CHAIN_ID } from '../utils/walletHelper';
 
 export default function Navbar() {
-  const [isConnectWalletModalOpen, setConnectWalletModal] = useState(false);
+  const {
+    connect,
+    disconnect,
+    connectData,
+    accountData,
+    networkData,
+    switchNetwork,
+  } = useWalletProvider();
 
   return (
     <>
@@ -55,24 +57,46 @@ export default function Navbar() {
               href="#"
               className="ml-5 flex-shrink-0 bg-white rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              <span className="sr-only">View notifications</span>
               <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
             </a>
-            <button
-              onClick={() => {
-                setConnectWalletModal(!isConnectWalletModalOpen);
-              }}
-              className="ml-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Connect Wallet
-            </button>
+            {!accountData && (
+              <button
+                onClick={() => {
+                  connect(connectData.connectors[1]).then();
+                }}
+                className="ml-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Connect Wallet
+              </button>
+            )}
+            {accountData && networkData.chain.id == AVAX_DEV_CHAIN_ID && (
+              <button
+                onClick={() => {
+                  disconnect();
+                }}
+                className="ml-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Disconnect{' '}
+                {accountData.address.substring(
+                  0,
+                  accountData.address.startsWith('0x') ? 6 : 3,
+                )}
+                ...
+              </button>
+            )}
+            {accountData && networkData.chain.id != AVAX_DEV_CHAIN_ID && (
+              <button
+                onClick={() => {
+                  switchNetwork(AVAX_DEV_CHAIN_ID);
+                }}
+                className="ml-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Switch Network
+              </button>
+            )}
           </div>
         </div>
       </div>
-      <ConnectWalletModal
-        isOpen={isConnectWalletModalOpen}
-        setIsOpen={setConnectWalletModal}
-      />
     </>
   );
 }

@@ -1,6 +1,5 @@
 import { chain, defaultChains } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { WalletLinkConnector } from 'wagmi/connectors/walletLink';
 
 const infuraId = process.env.NEXT_PUBLIC_INFURA_ID;
@@ -24,3 +23,5 @@ export const connectors = ({ chainId }: { chainId?: number | undefined }) => {
     }),
   ];
 };
+
+export const AVAX_DEV_CHAIN_ID = 43113;
