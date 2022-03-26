@@ -1,6 +1,7 @@
 import { useNftProvider } from '../contexts/NftProviderContext';
 import { useEffect } from 'react';
 import { INftCollection } from '../utils/nftConsts';
+import Link from 'next/link';
 
 export default function Summary() {
   const {
@@ -80,92 +81,96 @@ export default function Summary() {
                     </thead>
                     <tbody className="divide-y divide-gray-100 bg-white">
                       {nftCollections.map((nftCollection: INftCollection) => (
-                        <tr
+                        <Link
                           key={nftCollection.contractAddress}
-                          className="hover:bg-gray-50 cursor-pointer"
+                          href={`/collection/${nftCollection.contractAddress}`}
                         >
-                          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
-                            <div className="flex items-center">
-                              <div className="h-10 w-10 flex-shrink-0">
-                                <img
-                                  className="h-10 w-10 rounded-full"
-                                  src={nftCollection.image}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="ml-4">
-                                <div className="font-circularstdbold text-gray-900 flex items-center max-w-full">
-                                  {nftCollection.name}
+                          <tr className="hover:bg-gray-50 cursor-pointer">
+                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                              <div className="flex items-center">
+                                <div className="h-10 w-10 flex-shrink-0">
                                   <img
-                                    src="https://www.genie.xyz/svgs/verifiedBadge.svg"
-                                    className="ml-1"
-                                    style={{ height: '16px', width: '16px' }}
-                                    alt="verified badge"
+                                    className="h-10 w-10 rounded-full"
+                                    src={nftCollection.image}
+                                    alt=""
                                   />
                                 </div>
+                                <div className="ml-4">
+                                  <div className="font-circularstdbold text-gray-900 flex items-center max-w-full">
+                                    {nftCollection.name}
+                                    <img
+                                      src="https://www.genie.xyz/svgs/verifiedBadge.svg"
+                                      className="ml-1"
+                                      style={{ height: '16px', width: '16px' }}
+                                      alt="verified badge"
+                                    />
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {nftCollection.chainId == 43114 && (
-                              <>
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {nftCollection.chainId == 43114 && (
+                                <>
+                                  <img
+                                    src="https://nftrade.com/img/chains/currency/avaxCurrency.svg"
+                                    style={{ height: '16px', width: '16px' }}
+                                    alt="avax currency"
+                                  />
+                                </>
+                              )}
+                              {nftCollection.chainId == 56 && (
+                                <>
+                                  <img
+                                    src="https://nftrade.com/img/chains/currency/bnbCurrency.svg"
+                                    style={{ height: '16px', width: '16px' }}
+                                    alt="bsc currency"
+                                  />
+                                </>
+                              )}
+                              {nftCollection.chainId == 1 && (
+                                <>
+                                  <img
+                                    src="https://nftrade.com/img/chains/currency/ethCurrency.svg"
+                                    style={{ height: '16px', width: '16px' }}
+                                    alt="eth currency"
+                                  />
+                                </>
+                              )}
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-circularstdbook">
+                              {nftCollection.contractAddress}
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-circularstdbook">
+                              <div className="flex items-center max-w-full">
+                                {(nftCollection.floor / avaxUsdPrice).toFixed(
+                                  2,
+                                )}
                                 <img
                                   src="https://nftrade.com/img/chains/currency/avaxCurrency.svg"
+                                  className="ml-2"
                                   style={{ height: '16px', width: '16px' }}
                                   alt="avax currency"
                                 />
-                              </>
-                            )}
-                            {nftCollection.chainId == 56 && (
-                              <>
+                              </div>
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-circularstdbook">
+                              {nftCollection.lastDaySales}
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-circularstdbook">
+                              <div className="flex items-center max-w-full">
+                                {(
+                                  nftCollection.lastDayVolume / avaxUsdPrice
+                                ).toFixed(2)}
                                 <img
-                                  src="https://nftrade.com/img/chains/currency/bnbCurrency.svg"
+                                  src="https://nftrade.com/img/chains/currency/avaxCurrency.svg"
+                                  className="ml-2"
                                   style={{ height: '16px', width: '16px' }}
-                                  alt="bsc currency"
+                                  alt="avax currency"
                                 />
-                              </>
-                            )}
-                            {nftCollection.chainId == 1 && (
-                              <>
-                                <img
-                                  src="https://nftrade.com/img/chains/currency/ethCurrency.svg"
-                                  style={{ height: '16px', width: '16px' }}
-                                  alt="eth currency"
-                                />
-                              </>
-                            )}
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-circularstdbook">
-                            {nftCollection.contractAddress}
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-circularstdbook">
-                            <div className="flex items-center max-w-full">
-                              {(nftCollection.floor / avaxUsdPrice).toFixed(2)}
-                              <img
-                                src="https://nftrade.com/img/chains/currency/avaxCurrency.svg"
-                                className="ml-2"
-                                style={{ height: '16px', width: '16px' }}
-                                alt="avax currency"
-                              />
-                            </div>
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-circularstdbook">
-                            {nftCollection.lastDaySales}
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-circularstdbook">
-                            <div className="flex items-center max-w-full">
-                              {(
-                                nftCollection.lastDayVolume / avaxUsdPrice
-                              ).toFixed(2)}
-                              <img
-                                src="https://nftrade.com/img/chains/currency/avaxCurrency.svg"
-                                className="ml-2"
-                                style={{ height: '16px', width: '16px' }}
-                                alt="avax currency"
-                              />
-                            </div>
-                          </td>
-                        </tr>
+                              </div>
+                            </td>
+                          </tr>
+                        </Link>
                       ))}
                     </tbody>
                   </table>

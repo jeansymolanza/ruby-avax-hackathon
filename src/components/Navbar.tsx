@@ -2,6 +2,9 @@ import { SearchIcon } from '@heroicons/react/solid';
 import { ShoppingCartIcon } from '@heroicons/react/outline';
 import { useWalletProvider } from '../contexts/WalletProviderContext';
 import { AVAX_DEV_CHAIN_ID } from '../utils/walletHelper';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 export default function Navbar() {
   const {
@@ -13,19 +16,33 @@ export default function Navbar() {
     switchNetwork,
   } = useWalletProvider();
 
+  const [nftSearchContractAddress] = useState(
+    '0xed5af388653567af2f388e6224dc7c4b3241c544',
+  );
+
+  const router = useRouter();
+
+  const handleSearchInputKeydown = (event: { key: string }) => {
+    if (event.key === 'Enter') {
+      router.push(`/collection/${nftSearchContractAddress}`).then();
+    }
+  };
+
   return (
     <>
       <div className="sticky z-40 w-screen border-b py-5 px-6 bg-white flex items-center h-20 justify-between top-0">
         <div className="w-full flex items-center">
           <div className="flex md:absolute md:left-0 md:inset-y-0 lg:static xl:col-span-2 pr-8">
             <div className="flex-shrink-0 flex items-center">
-              <a href="/">
-                <img
-                  className="block h-8 w-auto"
-                  src={'../ruby_logo.png'}
-                  alt="Ruby"
-                />
-              </a>
+              <Link href="/" passHref>
+                <a rel="noopener noreferrer">
+                  <img
+                    className="block h-8 w-auto"
+                    src={'../ruby_logo.png'}
+                    alt="Ruby"
+                  />
+                </a>
+              </Link>
             </div>
           </div>
           <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
@@ -48,6 +65,7 @@ export default function Navbar() {
                     placeholder="Search items, collections, and profiles"
                     autoComplete="off"
                     type="search"
+                    onKeyDown={handleSearchInputKeydown}
                   />
                 </div>
               </div>
@@ -75,7 +93,7 @@ export default function Navbar() {
                 onClick={() => {
                   disconnect();
                 }}
-                className="ml-6 inline-flex items-center border-2 p-0.5 h-10 border-gray-300 dark:border-gray-600 cursor-pointer rounded-xl flex justify-center items-center hover:border-gray-500 hover:shadow text-sm font-bold font-circularstdbold text-gray-700 dark:text-gray-100 px-3"
+                className="ml-6 inline-flex items-center border-2 p-0.5 h-10 border-gray-300 dark:border-gray-600 cursor-pointer rounded-xl flex justify-center items-center hover:border-gray-500 hover:shadow text-sm font-circularstdbold text-gray-700 dark:text-gray-100 px-3"
               >
                 Disconnect{' '}
                 {accountData.address.substring(
@@ -90,7 +108,7 @@ export default function Navbar() {
                 onClick={() => {
                   switchNetwork(AVAX_DEV_CHAIN_ID);
                 }}
-                className="ml-6 inline-flex items-center border-2 p-0.5 h-10 border-gray-300 dark:border-gray-600 cursor-pointer rounded-xl flex justify-center items-center hover:border-gray-500 hover:shadow text-sm font-bold font-dmsans text-gray-700 dark:text-gray-100 px-3"
+                className="ml-6 inline-flex items-center border-2 p-0.5 h-10 border-gray-300 dark:border-gray-600 cursor-pointer rounded-xl flex justify-center items-center hover:border-gray-500 hover:shadow text-sm font-circularstdbold text-gray-700 dark:text-gray-100 px-3"
               >
                 Switch Network
               </button>
