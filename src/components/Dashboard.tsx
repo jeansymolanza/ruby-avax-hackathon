@@ -1,4 +1,6 @@
 import Listing from './Listing';
+import Sidebar from './Sidebar';
+import Cart from './Cart';
 
 export default function Dashboard() {
   return (
@@ -9,7 +11,7 @@ export default function Dashboard() {
             <div className="flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-gray-100">
               <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                 <div className="flex items-center flex-shrink-0 px-4">
-                  <Listing />
+                  <Sidebar />
                 </div>
               </div>
             </div>
@@ -24,7 +26,7 @@ export default function Dashboard() {
             </main>
             <aside className="hidden relative xl:flex xl:flex-col flex-shrink-0 w-96 border-l border-gray-200 overflow-y-auto">
               <div className="absolute inset-0 py-6 px-4 sm:px-6 lg:px-8">
-                <Listing />
+                <Cart />
               </div>
             </aside>
           </div>

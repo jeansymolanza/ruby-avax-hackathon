@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
   content: [
@@ -8,9 +7,12 @@ module.exports = {
     './next.config.js',
   ],
   theme: {
-    fontFamily: {
-      sans: ['ginto-regular', ...defaultTheme.fontFamily.sans],
-      heading: ['ginto-bold', ...defaultTheme.fontFamily.sans],
+    extend: {
+      fontFamily: {
+        circularstdbold: 'CircularStd-Bold, sans-serif',
+        circularstdmedium: 'CircularStd-Medium, sans-serif',
+        circularstdbook: 'CircularStd-Book, sans-serif',
+      },
     },
   },
   plugins: [require('@tailwindcss/typography')],

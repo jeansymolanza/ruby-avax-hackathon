@@ -15,15 +15,15 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="bg-white border-gray-200 px-4 sm:px-4 py-2.5 border-b lg:px-8">
-        <div className="relative flex justify-between xl:grid xl:grid-cols-12 lg:gap-8">
-          <div className="flex md:absolute md:left-0 md:inset-y-0 lg:static xl:col-span-2">
+      <div className="sticky z-40 w-screen border-b py-5 px-6 bg-white flex items-center h-20 justify-between top-0">
+        <div className="w-full flex items-center">
+          <div className="flex md:absolute md:left-0 md:inset-y-0 lg:static xl:col-span-2 pr-8">
             <div className="flex-shrink-0 flex items-center">
-              <a href="#">
+              <a href="/">
                 <img
                   className="block h-8 w-auto"
-                  src={'ruby_logo.png'}
-                  alt="Workflow"
+                  src={'../ruby_logo.png'}
+                  alt="Ruby"
                 />
               </a>
             </div>
@@ -44,7 +44,7 @@ export default function Navbar() {
                   <input
                     id="search"
                     name="search"
-                    className="block w-full bg-white border-2 border-gray-300 rounded-md py-2 pl-10 pr-3 text-sm border-gray-300 dark:border-gray-600 p-2 px-4 w-full text-sm max-w-xl outline-none focus:border-gray-500"
+                    className="block w-full bg-white border-2 border-gray-300 rounded-md py-2 pl-10 pr-3 text-sm border-gray-300 dark:border-gray-600 p-2 px-4 w-full text-sm max-w-xl outline-none focus:border-gray-500 font-circularstdmedium"
                     placeholder="Search items, collections, and profiles"
                     autoComplete="off"
                     type="search"
@@ -65,7 +65,7 @@ export default function Navbar() {
                 onClick={() => {
                   connect(connectData.connectors[1]).then();
                 }}
-                className="ml-6 inline-flex items-center border-2 p-0.5 h-10 border-gray-300 dark:border-gray-600 cursor-pointer rounded-xl flex justify-center items-center hover:border-gray-500 hover:shadow text-sm font-bold font-dmsans text-gray-700 dark:text-gray-100 px-3"
+                className="ml-6 inline-flex items-center border-2 p-0.5 h-10 border-gray-300 dark:border-gray-600 cursor-pointer rounded-xl flex justify-center items-center hover:border-gray-500 hover:shadow text-sm font-circularstdbold text-gray-700 dark:text-gray-100 px-3"
               >
                 Connect Wallet
               </button>
@@ -75,7 +75,7 @@ export default function Navbar() {
                 onClick={() => {
                   disconnect();
                 }}
-                className="ml-6 inline-flex items-center border-2 p-0.5 h-10 border-gray-300 dark:border-gray-600 cursor-pointer rounded-xl flex justify-center items-center hover:border-gray-500 hover:shadow text-sm font-bold font-dmsans text-gray-700 dark:text-gray-100 px-3"
+                className="ml-6 inline-flex items-center border-2 p-0.5 h-10 border-gray-300 dark:border-gray-600 cursor-pointer rounded-xl flex justify-center items-center hover:border-gray-500 hover:shadow text-sm font-bold font-circularstdbold text-gray-700 dark:text-gray-100 px-3"
               >
                 Disconnect{' '}
                 {accountData.address.substring(

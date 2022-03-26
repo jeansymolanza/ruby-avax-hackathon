@@ -1,12 +1,12 @@
 import type { NextPage } from 'next';
 import Layout from '../components/Layout';
-import Dashboard from '../components/Dashboard';
 import seo from '../data/seo';
+import Summary from '../components/Summary';
 
 const Home: NextPage = () => {
   return (
     <Layout title={seo.title}>
-      <Dashboard />
+      <Summary />
     </Layout>
   );
 };

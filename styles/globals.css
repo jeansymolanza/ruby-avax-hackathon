@@ -6,15 +6,22 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
+@layer base {
+  /*noinspection ALL*/
+  @font-face {
+    font-family: 'CircularStd-Bold';
+    src: url(/fonts/CircularStd-Bold.woff2) format('woff2');
+  }
+  /*noinspection ALL*/
+  @font-face {
+    font-family: 'CircularStd-Medium';
+    src: url(/fonts/CircularStd-Medium.woff2) format('woff2');
+  }
+  /*noinspection ALL*/
+  @font-face {
+    font-family: 'CircularStd-Book';
+    src: url(/fonts/CircularStd-Book.woff2) format('woff2');
+  }
 }
