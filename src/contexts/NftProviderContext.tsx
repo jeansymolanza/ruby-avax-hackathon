@@ -4,16 +4,13 @@ import React, {
   ReactElement,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from 'react';
 import { INft, INftCollection, NftMarketplace } from '../utils/nftConsts';
-import { useConnect } from 'wagmi';
 import SampleNftTradeAvax from '../data/sample_nfttrade_avax.json';
 import SampleNftTradeBsc from '../data/sample_nfttrade_bsc.json';
 import SampleGemEth from '../data/sample_gem_eth.json';
-import ConsoleHelper from '../utils/consoleHelper';
 
 const NftProviderContext = React.createContext<any>({});
 
@@ -25,19 +22,25 @@ export const NftProvider = ({
     string | JSXElementConstructor<unknown>
   >;
 }) => {
-  const [nfts, setNfts] = useState<INft[] | null | undefined>();
+  const [nfts] = useState<INft[] | null | undefined>();
+  const [selectedNfts, setSelectedNfts] = useState<INft[] | null | undefined>();
   const [nftCollections, setNftCollections] = useState<
     INftCollection[] | null | undefined
   >();
   const [avaxUsdPrice, setAvaxUsdPrice] = useState<0>();
-  const [{ data: connectData }] = useConnect();
+  const [ethUsdPrice, setEthUsdPrice] = useState<0>();
+  const [bnbUsdPrice, setBnbUsdPrice] = useState<0>();
+  const [tokenUsdPrice, setTokenUsdPrice] = useState<0>();
 
-  const fetchAvaxUsdPrice = useCallback(async () => {
-    const avaxUsdPrice = await fetch(
-      'https://api.coingecko.com/api/v3/simple/price?ids=avalanche-2&vs_currencies=usd',
+  const fetchTokenUsdPrice = useCallback(async () => {
+    const tokenUsdPrice = await fetch(
+      `https://api.covalenthq.com/v1/pricing/tickers/?quote-currency=USD&format=JSON&tickers=ETH,AVAX,BNB&key=${process.env.NEXT_PUBLIC_COVALENT_API_KEY}`,
     );
-    const avaxUsdPriceJson = await avaxUsdPrice.json();
-    setAvaxUsdPrice(avaxUsdPriceJson['avalanche-2']['usd']);
+    const tokenUsdPriceJson = await tokenUsdPrice.json();
+    setTokenUsdPrice(tokenUsdPriceJson['data']['items']);
+    setEthUsdPrice(tokenUsdPriceJson['data']['items'][0]['quote_rate']);
+    setBnbUsdPrice(tokenUsdPriceJson['data']['items'][1]['quote_rate']);
+    setAvaxUsdPrice(tokenUsdPriceJson['data']['items'][2]['quote_rate']);
   }, []);
 
   const fetchAllNftCollections = useCallback(async () => {
@@ -104,7 +107,18 @@ export const NftProvider = ({
     setNftCollections(nftCollections);
   }, []);
 
-  const fetchAllNfts = useCallback(async () => {
+  const fetchNftsByContractAddress = useCallback(async (contractAddress) => {
+    const nfts = await fetchAllNfts();
+    let selectedNfts: any = [];
+    if (nfts) {
+      selectedNfts = nfts.filter(function (nft) {
+        return nft.contractAddress === contractAddress;
+      });
+    }
+    setSelectedNfts(selectedNfts);
+  }, []);
+
+  const fetchAllNfts = async () => {
     const nfts = [];
     for (let i = 0; i < SampleNftTradeAvax.length; i++) {
       const nft: INft = {
@@ -115,7 +129,9 @@ export const NftProvider = ({
         name: SampleNftTradeAvax[i].name,
         image: SampleNftTradeAvax[i].image,
         imageAlt: SampleNftTradeAvax[i].name,
-        price: SampleNftTradeAvax[i].price as unknown as number,
+        price: parseFloat(SampleNftTradeAvax[i].price).toFixed(
+          2,
+        ) as unknown as number,
         marketplace: NftMarketplace.NFTRADE,
       };
       nfts.push(nft);
@@ -134,16 +150,24 @@ export const NftProvider = ({
       };
       nfts.push(nft);
     }
-    ConsoleHelper(nfts);
-    setNfts(nfts);
-  }, []);
-
-  useEffect(() => {
-    if (!connectData.connected) {
-      return;
+    for (let i = 0; i < SampleGemEth.length; i++) {
+      const nft: INft = {
+        id: SampleGemEth[i]._id,
+        tokenId: SampleGemEth[i].id,
+        contractAddress: SampleGemEth[i].address,
+        chainId: 1,
+        name: SampleGemEth[i].name,
+        image: SampleGemEth[i].imageUrl,
+        imageAlt: SampleGemEth[i].name,
+        price:
+          (SampleGemEth[i].priceInfo.price as unknown as number) /
+          Math.pow(10, 18),
+        marketplace: SampleGemEth[i].marketplace,
+      };
+      nfts.push(nft);
     }
-    fetchAllNfts().then();
-  }, [connectData.connected, fetchAllNfts]);
+    return nfts;
+  };
 
   const contextValue = useMemo(
     () => ({
@@ -151,15 +175,27 @@ export const NftProvider = ({
       fetchAllNfts,
       nftCollections,
       fetchAllNftCollections,
+      fetchNftsByContractAddress,
+      selectedNfts,
+      setSelectedNfts,
       avaxUsdPrice,
-      fetchAvaxUsdPrice,
+      bnbUsdPrice,
+      ethUsdPrice,
+      tokenUsdPrice,
+      fetchTokenUsdPrice,
     }),
     [
       nfts,
       nftCollections,
       fetchAllNftCollections,
+      fetchNftsByContractAddress,
+      selectedNfts,
+      setSelectedNfts,
       avaxUsdPrice,
-      fetchAvaxUsdPrice,
+      bnbUsdPrice,
+      ethUsdPrice,
+      tokenUsdPrice,
+      fetchTokenUsdPrice,
     ],
   );
 

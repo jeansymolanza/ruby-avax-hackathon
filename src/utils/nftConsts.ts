@@ -7,7 +7,7 @@ export interface INft {
   image: string;
   imageAlt: string;
   price: number;
-  marketplace: NftMarketplace;
+  marketplace: string | NftMarketplace;
 }
 
 export interface INftCollection {
@@ -24,4 +24,5 @@ export enum NftMarketplace {
   NFTRADE = 'nftrade',
   OPENSEA = 'opensea',
   LOOKSRARE = 'looksrare',
+  X2Y2 = 'x2y2',
 }

@@ -8,17 +8,16 @@ export default function Summary() {
     nftCollections,
     fetchAllNftCollections,
     avaxUsdPrice,
-    fetchAvaxUsdPrice,
+    tokenUsdPrice,
+    fetchTokenUsdPrice,
   } = useNftProvider();
 
   useEffect(() => {
     if (!nftCollections) {
+      fetchTokenUsdPrice();
       fetchAllNftCollections();
     }
-    if (!avaxUsdPrice) {
-      fetchAvaxUsdPrice();
-    }
-  });
+  }, [tokenUsdPrice, nftCollections]);
 
   return (
     <div className="h-full pt-12">
@@ -175,6 +174,15 @@ export default function Summary() {
                     </tbody>
                   </table>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {!nftCollections && (
+          <div className="mt-8 flex flex-col">
+            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8 font-circularstdbook">
+                Fetching latest collection data...
               </div>
             </div>
           </div>

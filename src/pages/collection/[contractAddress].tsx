@@ -1,13 +1,14 @@
 import type { NextPage } from 'next';
 import Layout from '../../components/Layout';
 import seo from '../../data/seo';
-import { useRouter } from 'next/router';
+import Dashboard from '../../components/Dashboard';
 
 const ContractAddress: NextPage = () => {
-  const router = useRouter();
-  const { contractAddress } = router.query;
-
-  return <Layout title={seo.title}>{contractAddress}</Layout>;
+  return (
+    <Layout title={seo.title}>
+      <Dashboard />
+    </Layout>
+  );
 };
 
 export default ContractAddress;

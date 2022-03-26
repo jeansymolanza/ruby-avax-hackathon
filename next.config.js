@@ -7,6 +7,7 @@ const nextConfig = {
       'res.cloudinary.com',
       'ipfs.infura.io',
       'the-u.club',
+      'lh3.googleusercontent.com',
     ],
   },
 };
