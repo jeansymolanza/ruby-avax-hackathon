@@ -1,5 +1,5 @@
 import Listing from './Listing';
-import Sidebar from './Sidebar';
+import Filter from './Filter';
 import Cart from './Cart';
 
 export default function Dashboard() {
@@ -8,10 +8,10 @@ export default function Dashboard() {
       <div className="h-full flex">
         <div className="hidden lg:flex lg:flex-shrink-0">
           <div className="flex flex-col w-64">
-            <div className="flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-gray-100">
+            <div className="flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white">
               <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                 <div className="flex items-center flex-shrink-0 px-4">
-                  <Sidebar />
+                  <Filter />
                 </div>
               </div>
             </div>

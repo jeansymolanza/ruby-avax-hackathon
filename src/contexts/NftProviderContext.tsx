@@ -24,6 +24,9 @@ export const NftProvider = ({
 }) => {
   const [nfts] = useState<INft[] | null | undefined>();
   const [selectedNfts, setSelectedNfts] = useState<INft[] | null | undefined>();
+  const [selectedNftsToPurchase, setSelectedNftsToPurchase] = useState<
+    INft[] | null | undefined
+  >();
   const [nftCollections, setNftCollections] = useState<
     INftCollection[] | null | undefined
   >();
@@ -124,6 +127,7 @@ export const NftProvider = ({
       const nft: INft = {
         id: SampleNftTradeAvax[i].id,
         tokenId: SampleNftTradeAvax[i].tokenID,
+        contractName: SampleNftTradeAvax[i].contractName,
         contractAddress: SampleNftTradeAvax[i].contractAddress,
         chainId: SampleNftTradeAvax[i].chainId,
         name: SampleNftTradeAvax[i].name,
@@ -140,6 +144,7 @@ export const NftProvider = ({
       const nft: INft = {
         id: SampleNftTradeBsc[i].id,
         tokenId: SampleNftTradeBsc[i].tokenID,
+        contractName: SampleNftTradeBsc[i].contractName,
         contractAddress: SampleNftTradeBsc[i].contractAddress,
         chainId: SampleNftTradeAvax[i].chainId,
         name: SampleNftTradeBsc[i].name,
@@ -154,6 +159,7 @@ export const NftProvider = ({
       const nft: INft = {
         id: SampleGemEth[i]._id,
         tokenId: SampleGemEth[i].id,
+        contractName: SampleGemEth[i].collectionName,
         contractAddress: SampleGemEth[i].address,
         chainId: 1,
         name: SampleGemEth[i].name,
@@ -178,6 +184,8 @@ export const NftProvider = ({
       fetchNftsByContractAddress,
       selectedNfts,
       setSelectedNfts,
+      selectedNftsToPurchase,
+      setSelectedNftsToPurchase,
       avaxUsdPrice,
       bnbUsdPrice,
       ethUsdPrice,
@@ -191,6 +199,8 @@ export const NftProvider = ({
       fetchNftsByContractAddress,
       selectedNfts,
       setSelectedNfts,
+      selectedNftsToPurchase,
+      setSelectedNftsToPurchase,
       avaxUsdPrice,
       bnbUsdPrice,
       ethUsdPrice,

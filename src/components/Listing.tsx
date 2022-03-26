@@ -3,6 +3,7 @@ import { INft, NftMarketplace } from '../utils/nftConsts';
 import Image from 'next/image';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import ConsoleHelper from '../utils/consoleHelper';
 
 export default function Listing() {
   const router = useRouter();
@@ -15,6 +16,8 @@ export default function Listing() {
     bnbUsdPrice,
     tokenUsdPrice,
     fetchTokenUsdPrice,
+    selectedNftsToPurchase,
+    setSelectedNftsToPurchase,
   } = useNftProvider();
 
   useEffect(() => {
@@ -29,13 +32,44 @@ export default function Listing() {
     }
   }, [tokenUsdPrice]);
 
+  function nftBeenSelectedForPurchase(nftToAdd: INft, selectedNfts: INft[]) {
+    return selectedNfts.some(function (selectedNft) {
+      return nftToAdd.id === selectedNft.id;
+    });
+  }
+
   return (
     <div>
       {selectedNfts && (
         <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8 pb-6">
           {selectedNfts.map((selectedNft: INft) => (
             <div className="group relative" key={selectedNft.id}>
-              <div className="w-full min-h-80 flex flex-col relative aspect-square overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none cursor-pointer">
+              <div
+                className="w-full min-h-80 flex flex-col relative aspect-square overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none cursor-pointer"
+                onClick={() => {
+                  let newSelectedNftsToPurchase = Object.assign(
+                    [],
+                    selectedNftsToPurchase,
+                  ) as INft[];
+                  if (
+                    !nftBeenSelectedForPurchase(
+                      selectedNft,
+                      newSelectedNftsToPurchase,
+                    )
+                  ) {
+                    newSelectedNftsToPurchase.push(selectedNft);
+                  } else {
+                    newSelectedNftsToPurchase =
+                      newSelectedNftsToPurchase.filter(function (
+                        nftsSelectedForPurchase,
+                      ) {
+                        return nftsSelectedForPurchase.id !== selectedNft.id;
+                      });
+                  }
+                  setSelectedNftsToPurchase(newSelectedNftsToPurchase);
+                  ConsoleHelper(newSelectedNftsToPurchase);
+                }}
+              >
                 <Image
                   src={selectedNft.image}
                   alt={selectedNft.imageAlt}

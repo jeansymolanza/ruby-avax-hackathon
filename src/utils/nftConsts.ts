@@ -2,6 +2,7 @@ export interface INft {
   id: string;
   tokenId: string;
   chainId: number;
+  contractName: string;
   contractAddress: string;
   name: string;
   image: string;

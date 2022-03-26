@@ -2,6 +2,7 @@ import { useNftProvider } from '../contexts/NftProviderContext';
 import { useEffect } from 'react';
 import { INftCollection } from '../utils/nftConsts';
 import Link from 'next/link';
+import { Oval } from 'react-loader-spinner';
 
 export default function Summary() {
   const {
@@ -22,7 +23,7 @@ export default function Summary() {
   return (
     <div className="h-full pt-12">
       <div className="px-4 sm:px-6 lg:px-8">
-        <div className="sm:flex sm:items-center">
+        <div className="sm:flex sm:items-center text-center">
           <div className="sm:flex-auto">
             <h1 className="text-4xl font-circularstdbold text-gray-900">
               The NFT marketplace aggregator for the AVAX ecosystem
@@ -33,7 +34,7 @@ export default function Summary() {
           </div>
         </div>
         {nftCollections && (
-          <div className="mt-8 flex flex-col">
+          <div className="mt-12 flex flex-col">
             <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                 <div className="overflow-hidden md:rounded-lg">
@@ -182,7 +183,16 @@ export default function Summary() {
           <div className="mt-8 flex flex-col">
             <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8 font-circularstdbook">
-                Fetching latest collection data...
+                <div className="py-6 w-full flex items-center justify-center">
+                  <div>
+                    <Oval
+                      color="#CE0404"
+                      secondaryColor="#FFFFF"
+                      height={80}
+                      width={80}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

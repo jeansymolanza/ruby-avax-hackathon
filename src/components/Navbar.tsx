@@ -61,7 +61,7 @@ export default function Navbar() {
                   <input
                     id="search"
                     name="search"
-                    className="block w-full bg-white border-2 border-gray-300 rounded-md py-2 pl-10 pr-3 text-sm border-gray-300 dark:border-gray-600 p-2 px-4 w-full text-sm max-w-xl outline-none focus:border-gray-500 font-circularstdmedium"
+                    className="block w-full bg-white border-2 border-gray-300 rounded-md py-2 pl-10 pr-3 text-sm border-gray-300 p-2 px-4 w-full text-sm max-w-xl outline-none focus:border-gray-500 font-circularstdmedium"
                     placeholder="Search items, collections, and profiles"
                     autoComplete="off"
                     type="search"
@@ -83,7 +83,7 @@ export default function Navbar() {
                 onClick={() => {
                   connect(connectData.connectors[1]).then();
                 }}
-                className="ml-6 inline-flex items-center border-2 p-0.5 h-10 border-gray-300 dark:border-gray-600 cursor-pointer rounded-xl flex justify-center items-center hover:border-gray-500 hover:shadow text-sm font-circularstdbold text-gray-700 dark:text-gray-100 px-3"
+                className="ml-6 inline-flex items-center border-2 p-0.5 h-10 border-gray-300 cursor-pointer rounded-xl flex justify-center items-center hover:border-gray-500 hover:shadow text-sm font-circularstdbold text-gray-700 px-3"
               >
                 Connect Wallet
               </button>
@@ -93,7 +93,7 @@ export default function Navbar() {
                 onClick={() => {
                   disconnect();
                 }}
-                className="ml-6 inline-flex items-center border-2 p-0.5 h-10 border-gray-300 dark:border-gray-600 cursor-pointer rounded-xl flex justify-center items-center hover:border-gray-500 hover:shadow text-sm font-circularstdbold text-gray-700 dark:text-gray-100 px-3"
+                className="ml-6 inline-flex items-center border-2 p-0.5 h-10 border-gray-300 cursor-pointer rounded-xl flex justify-center items-center hover:border-gray-500 hover:shadow text-sm font-circularstdbold text-gray-700 px-3"
               >
                 Disconnect{' '}
                 {accountData.address.substring(
@@ -108,7 +108,7 @@ export default function Navbar() {
                 onClick={() => {
                   switchNetwork(AVAX_DEV_CHAIN_ID);
                 }}
-                className="ml-6 inline-flex items-center border-2 p-0.5 h-10 border-gray-300 dark:border-gray-600 cursor-pointer rounded-xl flex justify-center items-center hover:border-gray-500 hover:shadow text-sm font-circularstdbold text-gray-700 dark:text-gray-100 px-3"
+                className="ml-6 inline-flex items-center border-2 p-0.5 h-10 border-gray-300 cursor-pointer rounded-xl flex justify-center items-center hover:border-gray-500 hover:shadow text-sm font-circularstdbold text-gray-700 px-3"
               >
                 Switch Network
               </button>
