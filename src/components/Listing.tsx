@@ -8,7 +8,6 @@ import {
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import ConsoleHelper from '../utils/consoleHelper';
 
 export default function Listing() {
   const router = useRouter();
@@ -44,14 +43,16 @@ export default function Listing() {
 
   useEffect(() => {
     if (!nftCollection && nftCollections && contractAddress) {
-      const nftCollection = nftCollections.some(function (
+      const nftCollection = nftCollections.filter(function (
         nftCollection: INftCollection,
       ) {
-        return nftCollection.contractAddress === nftCollection.contractAddress;
+        return nftCollection.contractAddress === contractAddress;
       });
-      setNftCollection(nftCollection);
+      if (nftCollection && nftCollection[0]) {
+        setNftCollection(nftCollection[0]);
+      }
     }
-  }, [nftCollection]);
+  }, [nftCollections, contractAddress]);
 
   useEffect(() => {
     if (!tokenUsdPrice) {
@@ -68,22 +69,54 @@ export default function Listing() {
   return (
     <div>
       <div className="w-full flex flex-col items-start flex-1">
-        <div className="sticky flex mb-4 flex-col bg-white py-4 w-full bg-white z-10 md:top-0 -mt-8">
-          <div className="flex flex-col md:flex-row items-start lg:items-center gap-2 justify-between">
-            <div className="flex flex-col">
-              <div className="flex items-center flex-shrink-1 truncate">
-                <div className="truncate text-2xl font-circularstdbold text-gray-700 text-left">
-                  {nftCollection && nftCollection.name}
+        {nftCollection && (
+          <div className="sticky flex mb-4 flex-col bg-white py-4 w-full bg-white z-10 md:top-0 -mt-8">
+            <div className="flex flex-col md:flex-row items-start lg:items-center gap-2 justify-between">
+              <div className="flex flex-col">
+                <div className="flex items-center flex-shrink-1 truncate">
+                  <div className="truncate text-2xl font-circularstdbold text-gray-700 text-left">
+                    {nftCollection && nftCollection.name}
+                  </div>
                 </div>
-              </div>
-              <div className="flex my-2 h-4 md:mb-0 text-xs">
-                <div className="flex">
-                  <span className="font-medium text-gray-500">24h: </span>
+                <div className="flex my-2 h-4 md:mb-0 text-xs  font-circularstdbook">
+                  <div className="flex">
+                    <span className="font-medium text-gray-500">
+                      Floor:{' '}
+                      {nftCollection &&
+                        (nftCollection.floor / avaxUsdPrice).toFixed(2)}
+                    </span>
+                    <img
+                      src="https://nftrade.com/img/chains/currency/avaxCurrency.svg"
+                      className="ml-1"
+                      style={{ height: '14px', width: '14px' }}
+                      alt="avax currency"
+                    />
+                  </div>
+                  <div className="mx-2 border border-gray-300" />
+                  <div className="flex">
+                    <span className="font-medium text-gray-500">
+                      24h Sales: {nftCollection && nftCollection.lastDaySales}
+                    </span>
+                  </div>
+                  <div className="mx-2 border border-gray-300" />
+                  <div className="flex">
+                    <span className="font-medium text-gray-500">
+                      24h Volume:{' '}
+                      {nftCollection &&
+                        (nftCollection.lastDayVolume / avaxUsdPrice).toFixed(2)}
+                    </span>
+                    <img
+                      src="https://nftrade.com/img/chains/currency/avaxCurrency.svg"
+                      className="ml-1"
+                      style={{ height: '14px', width: '14px' }}
+                      alt="avax currency"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
         {selectedNfts && (
           <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8 pb-6">
             {selectedNfts.map((selectedNft: INft) => (
@@ -111,7 +144,6 @@ export default function Listing() {
                         });
                     }
                     setSelectedNftsToPurchase(newSelectedNftsToPurchase);
-                    ConsoleHelper(newSelectedNftsToPurchase);
                   }}
                 >
                   <Image
