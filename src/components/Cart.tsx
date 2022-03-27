@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 import { INft, NftChainId } from '../utils/nftConsts';
 import { useWalletProvider } from '../contexts/WalletProviderContext';
 import { AVAX_DEV_CHAIN_ID } from '../utils/walletHelper';
+import Ruby from '../../blockchain/artifacts/contracts/Ruby.sol/Ruby.json';
+import { Avalanche, BinTools, BN, Buffer } from 'avalanche';
+import { ethers } from 'ethers';
 
 export default function Cart() {
   const { connect, connectData, accountData, networkData, switchNetwork } =
@@ -73,6 +76,12 @@ export default function Cart() {
   };
 
   const handleBuyButtonClick = () => {
+    const activeProvider = new ethers.providers.Web3Provider(window.ethereum);
+    const rubyContract = new ethers.Contract(
+      '0x8D9B38941E6d31938A12b463dE9F539797c79eC2',
+      Ruby.abi,
+      activeProvider,
+    );
     console.log('test');
   };
 
