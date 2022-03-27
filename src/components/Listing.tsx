@@ -60,7 +60,7 @@ export default function Listing() {
     }
   }, [tokenUsdPrice]);
 
-  function nftBeenSelectedForPurchase(nftToAdd: INft, selectedNfts: INft[]) {
+  function nftHasBeenSelectedForPurchase(nftToAdd: INft, selectedNfts: INft[]) {
     return selectedNfts.some(function (selectedNft) {
       return nftToAdd.id === selectedNft.id;
     });
@@ -122,14 +122,21 @@ export default function Listing() {
             {selectedNfts.map((selectedNft: INft) => (
               <div className="group relative" key={selectedNft.id}>
                 <div
-                  className="w-full min-h-80 flex flex-col relative aspect-square overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none cursor-pointer"
+                  className={
+                    !nftHasBeenSelectedForPurchase(
+                      selectedNft,
+                      selectedNftsToPurchase,
+                    )
+                      ? 'w-full min-h-80 flex flex-col relative aspect-square overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none cursor-pointer'
+                      : 'w-full min-h-80 flex flex-col relative aspect-square overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none cursor-pointer bg-blue-100'
+                  }
                   onClick={() => {
                     let newSelectedNftsToPurchase = Object.assign(
                       [],
                       selectedNftsToPurchase,
                     ) as INft[];
                     if (
-                      !nftBeenSelectedForPurchase(
+                      !nftHasBeenSelectedForPurchase(
                         selectedNft,
                         newSelectedNftsToPurchase,
                       )
@@ -198,7 +205,16 @@ export default function Listing() {
                     <div>{selectedNft.tokenId}</div>
                   </span>
                 </div>
-                <div className="border-2 border-gray-100 -mt-6 pt-8 pb-3 px-3 rounded-xl text-sm">
+                <div
+                  className={
+                    !nftHasBeenSelectedForPurchase(
+                      selectedNft,
+                      selectedNftsToPurchase,
+                    )
+                      ? 'border-2 border-gray-100 -mt-6 pt-8 pb-3 px-3 rounded-xl text-sm'
+                      : 'border-2 border-gray-100 -mt-6 pt-8 pb-3 px-3 rounded-xl text-sm bg-blue-50'
+                  }
+                >
                   <div className="font-bold">{selectedNft.name}</div>
                   <div className="flex items-center max-w-full">
                     {selectedNft.chainId === NftChainId.ETHEREUM && (
