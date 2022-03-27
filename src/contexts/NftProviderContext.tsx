@@ -11,6 +11,7 @@ import { INft, INftCollection, NftMarketplace } from '../utils/nftConsts';
 import SampleNftTradeAvax from '../data/sample_nfttrade_avax.json';
 import SampleNftTradeBsc from '../data/sample_nfttrade_bsc.json';
 import SampleGemEth from '../data/sample_gem_eth.json';
+import DummyHoppersNft from '../data/dummy_hoppers_avax.json';
 
 const NftProviderContext = React.createContext<any>({});
 
