@@ -9,6 +9,7 @@ const nextConfig = {
       'ipfs.io',
       'the-u.club',
       'lh3.googleusercontent.com',
+      'assets.nftrade.com',
     ],
   },
 };

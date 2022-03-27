@@ -153,7 +153,7 @@ export const NftProvider = ({
         contractAddress: SampleNftCollection[i].pageProps.token.contractAddress,
         chainId: SampleNftCollection[i].pageProps.token.chainId,
         name: SampleNftCollection[i].pageProps.token.name,
-        image: SampleNftCollection[i].pageProps.token.image,
+        image: SampleNftCollection[i].pageProps.token.preview,
         imageAlt: SampleNftCollection[i].pageProps.token.name,
         price: SampleNftCollection[i].pageProps.token.price.toFixed(
           2,

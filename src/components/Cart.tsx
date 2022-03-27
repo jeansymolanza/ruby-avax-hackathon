@@ -2,10 +2,10 @@ import { useNftProvider } from '../contexts/NftProviderContext';
 import { useEffect, useState } from 'react';
 import { INft, NftChainId } from '../utils/nftConsts';
 import { useWalletProvider } from '../contexts/WalletProviderContext';
-import { AVAX_DEV_CHAIN_ID } from '../utils/walletHelper';
-import Ruby from '../../blockchain/artifacts/contracts/Ruby.sol/Ruby.json';
-import { Avalanche, BinTools, BN, Buffer } from 'avalanche';
-import { ethers } from 'ethers';
+import { AVAX_DEV_CHAIN_ID, RUBY_CONTRACT_ADDRESS } from '../utils/walletHelper';
+import ConsoleHelper from '../utils/consoleHelper';
+import RubyContract from '../data/ruby.json';
+import { useContract, useSigner } from 'wagmi';
 
 export default function Cart() {
   const { connect, connectData, accountData, networkData, switchNetwork } =
@@ -71,18 +71,30 @@ export default function Cart() {
     }
   }, [selectedNftsToPurchase]);
 
+  const [{ data }] = useSigner();
+
   const handleClearButtonClick = () => {
     setSelectedNftsToPurchase([]);
   };
 
-  const handleBuyButtonClick = () => {
-    const activeProvider = new ethers.providers.Web3Provider(window.ethereum);
-    const rubyContract = new ethers.Contract(
-      '0x8D9B38941E6d31938A12b463dE9F539797c79eC2',
-      Ruby.abi,
-      activeProvider,
-    );
-    console.log('test');
+  const contract = useContract({
+    addressOrName: RUBY_CONTRACT_ADDRESS,
+    contractInterface: RubyContract.abi,
+    signerOrProvider: data,
+  });
+
+  const handleBuyButtonClick = async () => {
+    try {
+      const nftContractAddresses = [];
+      for (let i = 0; i < selectedNftsToPurchase.length; i++) {
+        if (selectedNftsToPurchase.const) {
+          nftContractAddresses.push(selectedNftsToPurchase.address);
+        }
+      }
+      await contract.connect().bulkPurchase(nftContractAddresses);
+    } catch (e) {
+      ConsoleHelper(JSON.stringify(e));
+    }
   };
 
   const handleRemoveSelectedNftToPurchase = (selectedNft: INft): void => {
@@ -294,7 +306,7 @@ export default function Cart() {
         (selectedNftsToPurchase && selectedNftsToPurchase.length) > 0 && (
           <button
             onClick={() => {
-              handleBuyButtonClick();
+              handleBuyButtonClick().then();
             }}
             className="text-base font-circularstdbold font-medium cursor-pointer hover:shadow text-white py-3 flex items-center justify-center md:py-4 md:px-6 rounded-xl w-full cursor-pointer md:mr-0 my-auto bg-red-700 hover:bg-red-900 mt-3"
           >

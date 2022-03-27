@@ -25,3 +25,6 @@ export const connectors = ({ chainId }: { chainId?: number | undefined }) => {
 };
 
 export const AVAX_DEV_CHAIN_ID = 43113;
+export const AVAX_DEV_CHAIN_URL = 'https://api.avax-test.network/ext/bc/C/rpc';
+export const RUBY_CONTRACT_ADDRESS =
+  '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
