@@ -1,8 +1,12 @@
 import { useNftProvider } from '../contexts/NftProviderContext';
 import { useEffect, useState } from 'react';
-import { INft } from '../utils/nftConsts';
+import { INft, NftChainId } from '../utils/nftConsts';
+import { useWalletProvider } from '../contexts/WalletProviderContext';
+import { AVAX_DEV_CHAIN_ID } from '../utils/walletHelper';
 
 export default function Cart() {
+  const { connect, connectData, accountData, networkData, switchNetwork } =
+    useWalletProvider();
   const {
     selectedNftsToPurchase,
     setSelectedNftsToPurchase,
@@ -30,7 +34,7 @@ export default function Cart() {
       let selectedNftsToPurchaseAvaxTotalAmount = 0;
       let selectedNftsToPurchaseUsdTotalAmount = 0;
       for (let i = 0; i < selectedNftsToPurchase.length; i++) {
-        if (selectedNftsToPurchase[i].chainId === 1) {
+        if (selectedNftsToPurchase[i].chainId === NftChainId.ETHEREUM) {
           selectedNftsToPurchaseAvaxTotalAmount =
             selectedNftsToPurchaseAvaxTotalAmount +
             (selectedNftsToPurchase[i].price * ethUsdPrice) / avaxUsdPrice;
@@ -38,7 +42,7 @@ export default function Cart() {
             selectedNftsToPurchaseUsdTotalAmount +
             selectedNftsToPurchase[i].price * ethUsdPrice;
         }
-        if (selectedNftsToPurchase[i].chainId === 56) {
+        if (selectedNftsToPurchase[i].chainId === NftChainId.AVALANCHE) {
           selectedNftsToPurchaseAvaxTotalAmount =
             selectedNftsToPurchaseAvaxTotalAmount +
             (selectedNftsToPurchase[i].price * bnbUsdPrice) / avaxUsdPrice;
@@ -46,7 +50,7 @@ export default function Cart() {
             selectedNftsToPurchaseUsdTotalAmount +
             selectedNftsToPurchase[i].price * bnbUsdPrice;
         }
-        if (selectedNftsToPurchase[i].chainId === 43114) {
+        if (selectedNftsToPurchase[i].chainId === NftChainId.AVALANCHE) {
           selectedNftsToPurchaseAvaxTotalAmount =
             selectedNftsToPurchaseAvaxTotalAmount +
             parseFloat(selectedNftsToPurchase[i].price);
@@ -66,6 +70,10 @@ export default function Cart() {
 
   const handleClearButtonClick = () => {
     setSelectedNftsToPurchase([]);
+  };
+
+  const handleBuyButtonClick = () => {
+    console.log('test');
   };
 
   const handleRemoveSelectedNftToPurchase = (selectedNft: INft): void => {
@@ -89,7 +97,7 @@ export default function Cart() {
                 My Cart
               </div>
               {selectedNftsToPurchase && selectedNftsToPurchase.length > 0 && (
-                <div className="ml-2 bg-gray-400 rounded-full w-6 h-6 flex items-center justify-center text-md text-white dark:text-gray-800 font-circularstdbook">
+                <div className="ml-2 bg-gray-400 rounded-full w-6 h-6 flex items-center justify-center text-md text-white font-circularstdbook">
                   {selectedNftsToPurchase.length}
                 </div>
               )}
@@ -222,12 +230,12 @@ export default function Cart() {
                 </div>
               </div>
             ))}
-            <div className="flex justify-between flex-shrink-0 pt-4 border-t border-gray-300 dark:border-gray-600 mt-6">
-              <div className="font-medium text-2xl text-gray-400 dark:text-gray-400 mt-2">
+            <div className="flex justify-between flex-shrink-0 pt-4 border-t border-gray-300 mt-6">
+              <div className="font-medium text-2xl text-gray-400 mt-2">
                 You Pay
               </div>
               <div className="flex flex-col items-end mr-2">
-                <div className="flex items-center max-w-full text-base font-medium text-gray-700 dark:text-gray-100 mb-1">
+                <div className="flex items-center max-w-full text-base font-medium text-gray-700 mb-1">
                   <div className="truncate flex">
                     {parseFloat(
                       selectedNftsToPurchaseAvaxTotalAmount as unknown as string,
@@ -252,9 +260,38 @@ export default function Cart() {
           </div>
         )}
       </div>
-      <div className="text-base font-circularstdbold font-medium cursor-pointer hover:shadow text-white py-3 flex items-center justify-center md:py-4 md:px-6 rounded-xl w-full cursor-pointer md:mr-0 my-auto bg-red-700 hover:bg-red-900 mt-3">
-        Connect Wallet
-      </div>
+      {!accountData && (
+        <button
+          onClick={() => {
+            connect(connectData.connectors[1]).then();
+          }}
+          className="text-base font-circularstdbold font-medium cursor-pointer hover:shadow text-white py-3 flex items-center justify-center md:py-4 md:px-6 rounded-xl w-full cursor-pointer md:mr-0 my-auto bg-red-700 hover:bg-red-900 mt-3"
+        >
+          Connect Wallet
+        </button>
+      )}
+      {accountData && networkData.chain.id != AVAX_DEV_CHAIN_ID && (
+        <button
+          onClick={() => {
+            switchNetwork(AVAX_DEV_CHAIN_ID);
+          }}
+          className="text-base font-circularstdbold font-medium cursor-pointer hover:shadow text-white py-3 flex items-center justify-center md:py-4 md:px-6 rounded-xl w-full cursor-pointer md:mr-0 my-auto bg-red-700 hover:bg-red-900 mt-3"
+        >
+          Switch Network
+        </button>
+      )}
+      {accountData &&
+        networkData.chain.id == AVAX_DEV_CHAIN_ID &&
+        (selectedNftsToPurchase && selectedNftsToPurchase.length) > 0 && (
+          <button
+            onClick={() => {
+              handleBuyButtonClick();
+            }}
+            className="text-base font-circularstdbold font-medium cursor-pointer hover:shadow text-white py-3 flex items-center justify-center md:py-4 md:px-6 rounded-xl w-full cursor-pointer md:mr-0 my-auto bg-red-700 hover:bg-red-900 mt-3"
+          >
+            Buy
+          </button>
+        )}
     </div>
   );
 }

@@ -27,3 +27,9 @@ export enum NftMarketplace {
   LOOKSRARE = 'looksrare',
   X2Y2 = 'x2y2',
 }
+
+export enum NftChainId {
+  ETHEREUM = 1,
+  BINANCE_SMART_CHAIN = 56,
+  AVALANCHE = 43114,
+}
