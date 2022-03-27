@@ -11,7 +11,7 @@ import { INft, INftCollection, NftMarketplace } from '../utils/nftConsts';
 import SampleNftTradeAvax from '../data/sample_nfttrade_avax.json';
 import SampleNftTradeBsc from '../data/sample_nfttrade_bsc.json';
 import SampleGemEth from '../data/sample_gem_eth.json';
-import DummyHoppersNft from '../data/dummy_hoppers_avax.json';
+import SampleNftCollection from '../data/sample_nft_collection.json';
 
 const NftProviderContext = React.createContext<any>({});
 
@@ -49,6 +49,27 @@ export const NftProvider = ({
 
   const fetchAllNftCollections = useCallback(async () => {
     const nftCollections = [];
+
+    const sampleNftCollectionMetadata = await fetch(
+      `${process.env.NEXT_PUBLIC_COVALENT_AVAX_MARKET_API_URL}/0x4245a1bd84eb5f3ebc115c2edf57e50667f98b0b/?key=${process.env.NEXT_PUBLIC_COVALENT_API_KEY}`,
+    );
+    const sampleNftCollectionMetadataJson =
+      await sampleNftCollectionMetadata.json();
+    nftCollections.push({
+      image:
+        SampleNftCollection[
+          Math.floor(Math.random() * SampleNftCollection.length)
+        ].pageProps.token.image,
+      contractAddress: SampleNftCollection[0].pageProps.token.contractAddress,
+      name: SampleNftCollection[0].pageProps.token.contractName,
+      chainId: SampleNftCollection[0].pageProps.token.chainId,
+      floor: sampleNftCollectionMetadataJson.data.items[0].floor_price_quote_7d,
+      lastDaySales:
+        sampleNftCollectionMetadataJson.data.items[0]
+          .unique_token_ids_sold_count_day,
+      lastDayVolume:
+        sampleNftCollectionMetadataJson.data.items[0].volume_quote_day,
+    } as INftCollection);
 
     const sampleNftTradeAvaxMetadata = await fetch(
       `${process.env.NEXT_PUBLIC_COVALENT_AVAX_MARKET_API_URL}/${SampleNftTradeAvax[0].contractAddress}/?key=${process.env.NEXT_PUBLIC_COVALENT_API_KEY}`,
@@ -124,6 +145,23 @@ export const NftProvider = ({
 
   const fetchAllNfts = async () => {
     const nfts = [];
+    for (let i = 0; i < SampleNftCollection.length; i++) {
+      const nft: INft = {
+        id: SampleNftCollection[i].pageProps.token.id,
+        tokenId: SampleNftCollection[i].pageProps.token.tokenID,
+        contractName: SampleNftCollection[i].pageProps.token.contractName,
+        contractAddress: SampleNftCollection[i].pageProps.token.contractAddress,
+        chainId: SampleNftCollection[i].pageProps.token.chainId,
+        name: SampleNftCollection[i].pageProps.token.name,
+        image: SampleNftCollection[i].pageProps.token.image,
+        imageAlt: SampleNftCollection[i].pageProps.token.name,
+        price: SampleNftCollection[i].pageProps.token.price.toFixed(
+          2,
+        ) as unknown as number,
+        marketplace: NftMarketplace.NFTRADE,
+      };
+      nfts.push(nft);
+    }
     for (let i = 0; i < SampleNftTradeAvax.length; i++) {
       const nft: INft = {
         id: SampleNftTradeAvax[i].id,
