@@ -195,7 +195,7 @@ export default function Listing() {
                     />
                   </div>
                   <span className="border-2 border-white rounded-md absolute left-3 bottom-3 bg-white text-black h-6 px-2 font-bold text-xs flex items-center justify-center">
-                    <div># 7447</div>
+                    <div>{selectedNft.tokenId}</div>
                   </span>
                 </div>
                 <div className="border-2 border-gray-100 -mt-6 pt-8 pb-3 px-3 rounded-xl text-sm">

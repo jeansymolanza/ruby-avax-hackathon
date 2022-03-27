@@ -6,6 +6,7 @@ const nextConfig = {
       'ipfs.nftrade.com',
       'res.cloudinary.com',
       'ipfs.infura.io',
+      'ipfs.io',
       'the-u.club',
       'lh3.googleusercontent.com',
     ],

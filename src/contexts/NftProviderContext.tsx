@@ -145,6 +145,23 @@ export const NftProvider = ({
 
   const fetchAllNfts = async () => {
     const nfts = [];
+    for (let i = 0; i < SampleNftCollection.length; i++) {
+      const nft: INft = {
+        id: SampleNftCollection[i].pageProps.token.id,
+        tokenId: SampleNftCollection[i].pageProps.token.tokenID,
+        contractName: SampleNftCollection[i].pageProps.token.contractName,
+        contractAddress: SampleNftCollection[i].pageProps.token.contractAddress,
+        chainId: SampleNftCollection[i].pageProps.token.chainId,
+        name: SampleNftCollection[i].pageProps.token.name,
+        image: SampleNftCollection[i].pageProps.token.image,
+        imageAlt: SampleNftCollection[i].pageProps.token.name,
+        price: SampleNftCollection[i].pageProps.token.price.toFixed(
+          2,
+        ) as unknown as number,
+        marketplace: NftMarketplace.NFTRADE,
+      };
+      nfts.push(nft);
+    }
     for (let i = 0; i < SampleNftTradeAvax.length; i++) {
       const nft: INft = {
         id: SampleNftTradeAvax[i].id,

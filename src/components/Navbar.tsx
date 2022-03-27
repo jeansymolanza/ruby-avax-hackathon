@@ -1,5 +1,4 @@
 import { SearchIcon } from '@heroicons/react/solid';
-import { ShoppingCartIcon } from '@heroicons/react/outline';
 import { useWalletProvider } from '../contexts/WalletProviderContext';
 import { AVAX_DEV_CHAIN_ID } from '../utils/walletHelper';
 import Link from 'next/link';
@@ -72,12 +71,6 @@ export default function Navbar() {
             </div>
           </div>
           <div className="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
-            <a
-              href="#"
-              className="ml-5 flex-shrink-0 bg-white rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
-            </a>
             {!accountData && (
               <button
                 onClick={() => {
